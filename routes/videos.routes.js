@@ -3,9 +3,11 @@ const express = require('express');
 const { upload } = require('../utils/multer');
 const videosMiddleware = require('../middlewares/videos.middleware');
 const videosController = require('../controllers/videos.controllers');
+const authMiddleware = require('../middlewares/auth.middleware');
 
 const router = express.Router();
 
+router.get('/', videosController.findAll);
 router.post(
   '/',
   upload.fields([
@@ -14,6 +16,8 @@ router.post(
   ]),
   videosController.create
 );
+
+router.use(authMiddleware.protect);
 router
   .route('/:id')
   .patch(
@@ -27,5 +31,4 @@ router
   .delete(videosMiddleware.validExistVideos, videosController.delete)
   .get(videosMiddleware.validExistVideos, videosController.findOne);
 
-router.get('/', videosController.findAll);
 module.exports = router;

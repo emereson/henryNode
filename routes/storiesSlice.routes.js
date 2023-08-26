@@ -1,11 +1,16 @@
 const express = require('express');
+
 const storiesSliceMiddleware = require('../middlewares/storiesSlice.middleware');
+const authMiddleware = require('../middlewares/auth.middleware');
 
 const storiesSliceController = require('../controllers/storiesSlice.controllers');
 
 const router = express.Router();
 
+router.get('/', storiesSliceController.findAll);
 router.post('/', storiesSliceController.create);
+
+router.use(authMiddleware.protect);
 router
   .route('/:id')
   .patch(
@@ -21,5 +26,4 @@ router
     storiesSliceController.findOne
   );
 
-router.get('/', storiesSliceController.findAll);
 module.exports = router;
