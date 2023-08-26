@@ -71,6 +71,6 @@ exports.delete = catchAsync(async (req, res, next) => {
   return res.status(200).json({
     status: 'success',
     message: 'home has been delete',
-    photography,
+    home,
   });
 });
