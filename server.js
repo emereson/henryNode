@@ -13,7 +13,7 @@ db.sync()
   .then(() => console.log('Database Synced! ❤'))
   .catch((error) => console.log(error));
 
-const port = +process.env.port;
+const port = +process.env.PORT;
 
 app.listen(port, () => {
   console.log(`App Running on port ${port}`);
