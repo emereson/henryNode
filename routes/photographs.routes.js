@@ -9,6 +9,13 @@ const photographsController = require('../controllers/photographs.controllers');
 const router = express.Router();
 
 router.get('/', photographsController.findAll);
+router.get(
+  '/:id',
+  photographsMiddleware.validExistPhotographs,
+  photographsController.findOne
+);
+
+router.use(authMiddleware.protect);
 router.post(
   '/',
   upload.fields([
@@ -17,7 +24,6 @@ router.post(
   ]),
   photographsController.create
 );
-router.use(authMiddleware.protect);
 router
   .route('/:id')
   .patch(
@@ -27,10 +33,6 @@ router
   .delete(
     photographsMiddleware.validExistPhotographs,
     photographsController.delete
-  )
-  .get(
-    photographsMiddleware.validExistPhotographs,
-    photographsController.findOne
   );
 
 module.exports = router;

@@ -9,12 +9,16 @@ const storiesController = require('../controllers/stories.controllers');
 const router = express.Router();
 
 router.get('/', storiesController.findAll);
-router.post('/', upload.single('storiesImgUrl'), storiesController.create);
+router.get(
+  '/:id',
+  storiesMiddleware.validExistStories,
+  storiesController.findOne
+);
 router.use(authMiddleware.protect);
+router.post('/', upload.single('storiesImgUrl'), storiesController.create);
 router
   .route('/:id')
   .patch(storiesMiddleware.validExistStories, storiesController.update)
-  .delete(storiesMiddleware.validExistStories, storiesController.delete)
-  .get(storiesMiddleware.validExistStories, storiesController.findOne);
+  .delete(storiesMiddleware.validExistStories, storiesController.delete);
 
 module.exports = router;

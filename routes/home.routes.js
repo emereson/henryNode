@@ -8,14 +8,14 @@ const homeController = require('../controllers/home.controllers');
 
 const router = express.Router();
 
-router.post('/', upload.single('homeVideoUrl'), homeController.create);
 router.get('/', homeController.findAll);
+router.get('/:id', homeMiddleware.validExistHome, homeController.findOne);
 
 router.use(authMiddleware.protect);
+router.post('/', upload.single('homeVideoUrl'), homeController.create);
 router
   .route('/:id')
   .patch(homeMiddleware.validExistHome, homeController.update)
-  .delete(homeMiddleware.validExistHome, homeController.delete)
-  .get(homeMiddleware.validExistHome, homeController.findOne);
+  .delete(homeMiddleware.validExistHome, homeController.delete);
 
 module.exports = router;

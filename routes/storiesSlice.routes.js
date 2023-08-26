@@ -8,9 +8,14 @@ const storiesSliceController = require('../controllers/storiesSlice.controllers'
 const router = express.Router();
 
 router.get('/', storiesSliceController.findAll);
-router.post('/', storiesSliceController.create);
+router.get(
+  '/:id',
+  storiesSliceMiddleware.validExistStoriesSlice,
+  storiesSliceController.findOne
+);
 
 router.use(authMiddleware.protect);
+router.post('/', storiesSliceController.create);
 router
   .route('/:id')
   .patch(
@@ -20,10 +25,6 @@ router
   .delete(
     storiesSliceMiddleware.validExistStoriesSlice,
     storiesSliceController.delete
-  )
-  .get(
-    storiesSliceMiddleware.validExistStoriesSlice,
-    storiesSliceController.findOne
   );
 
 module.exports = router;

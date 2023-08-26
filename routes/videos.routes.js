@@ -8,6 +8,9 @@ const authMiddleware = require('../middlewares/auth.middleware');
 const router = express.Router();
 
 router.get('/', videosController.findAll);
+router.get('/:id', videosMiddleware.validExistVideos, videosController.findOne);
+
+router.use(authMiddleware.protect);
 router.post(
   '/',
   upload.fields([
@@ -16,8 +19,6 @@ router.post(
   ]),
   videosController.create
 );
-
-router.use(authMiddleware.protect);
 router
   .route('/:id')
   .patch(
@@ -28,7 +29,6 @@ router
     videosMiddleware.validExistVideos,
     videosController.update
   )
-  .delete(videosMiddleware.validExistVideos, videosController.delete)
-  .get(videosMiddleware.validExistVideos, videosController.findOne);
+  .delete(videosMiddleware.validExistVideos, videosController.delete);
 
 module.exports = router;
