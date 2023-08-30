@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/', videosController.findAll);
 router.get('/:id', videosMiddleware.validExistVideos, videosController.findOne);
 
-router.use(authMiddleware.protect);
+// router.use(authMiddleware.protect);
 router.post(
   '/',
   upload.fields([
