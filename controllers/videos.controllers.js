@@ -32,19 +32,19 @@ exports.findOne = catchAsync(async (req, res, next) => {
 exports.create = catchAsync(async (req, res, next) => {
   const { title, titleEng, date, dateEng } = req.body;
 
-  const videoBuffer = req.files['videoUrl'][0].buffer;
+  const videoBuffer = req.files['videoUrl'][0];
   const videoRef = ref(
     storage,
-    `videoUrl/${Date.now()}-${req.files['videoUrl'][0].originalname}`
+    `videoUrl/${Date.now()}-${videoBuffer.originalname}`
   );
-  await uploadBytes(videoRef, videoBuffer);
+  await uploadBytes(videoRef, videoBuffer.buffer);
 
-  const imgBuffer = req.files['videosimgUrl'][0].buffer;
+  const imgBuffer = req.files['videosimgUrl'][0];
   const imgRef = ref(
     storage,
-    `videosimgUrl/${Date.now()}-${req.files['videosimgUrl'][0].originalname}`
+    `videosimgUrl/${Date.now()}-${imgBuffer.originalname}`
   );
-  await uploadBytes(imgRef, imgBuffer);
+  await uploadBytes(imgRef, imgBuffer.buffer);
 
   const videos = await Videos.create({
     title,
