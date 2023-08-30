@@ -20,6 +20,7 @@ const videosRouter = require('./routes/videos.routes');
 
 const app = express();
 
+app.set('trust proxy', 1);
 const limiter = rateLimit({
   max: 1000,
   windowMs: 60 * 60 * 1000,
