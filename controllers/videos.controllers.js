@@ -43,10 +43,10 @@ exports.create = catchAsync(async (req, res, next) => {
     dateEng,
     videoUrl: `${req.protocol}://${req.get(
       'host'
-    )}/api/v1//uploads/${videoFilename}`,
+    )}/api/v1/uploads/${videoFilename}`,
     videosimgUrl: `${req.protocol}://${req.get(
       'host'
-    )}/api/v1//uploads/${imgFilename}`,
+    )}/api/v1/uploads/${imgFilename}`,
   });
 
   return res.status(201).json({
