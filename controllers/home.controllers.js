@@ -27,9 +27,7 @@ exports.create = catchAsync(async (req, res, next) => {
   const videoFilename = videoBuffer.filename;
 
   const home = await Home.create({
-    homeVideoUrl: `${req.protocol}://${req.get(
-      'host'
-    )}/api/v1/uploads/${videoFilename}`,
+    homeVideoUrl: videoFilename,
   });
 
   return res.status(201).json({
@@ -45,9 +43,7 @@ exports.update = catchAsync(async (req, res, next) => {
   const videoFilename = videoBuffer.filename;
 
   await home.update({
-    homeVideoUrl: `${req.protocol}://${req.get(
-      'host'
-    )}/api/v1/uploads/${videoFilename}`,
+    homeVideoUrl: videoFilename,
   });
 
   return res.status(201).json({

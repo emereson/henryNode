@@ -43,9 +43,7 @@ exports.create = catchAsync(async (req, res, next) => {
     date,
     dateEng,
     galleryStyle,
-    photographsFrontPage: `${req.protocol}://${req.get(
-      'host'
-    )}/api/v1/images/${frontPageFilename}`,
+    photographsFrontPage: frontPageFilename,
   });
 
   const promesasFotosPromised = req.files['photographsImgUrl'].map(
@@ -54,9 +52,7 @@ exports.create = catchAsync(async (req, res, next) => {
 
       return PhotographsImg.create({
         photographsId: photographs.id,
-        photographsImgUrl: `${req.protocol}://${req.get(
-          'host'
-        )}/api/v1/images/${imgFilename}`,
+        photographsImgUrl: imgFilename,
       });
     }
   ); // Cierre del map aquí
