@@ -1,8 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const Videos = require('../models/videos.model');
 const DataVideos = require('../models/dataVideos.model');
-const { ref, uploadBytes, getDownloadURL } = require('firebase/storage');
-const { storage } = require('../utils/firebase');
 
 exports.findAll = catchAsync(async (req, res, next) => {
   const videos = await Videos.findAll({
@@ -32,27 +30,23 @@ exports.findOne = catchAsync(async (req, res, next) => {
 exports.create = catchAsync(async (req, res, next) => {
   const { title, titleEng, date, dateEng } = req.body;
 
-  const videoBuffer = req.files['videoUrl'][0];
-  const videoRef = ref(
-    storage,
-    `videoUrl/${Date.now()}-${videoBuffer.originalname}`
-  );
-  await uploadBytes(videoRef, videoBuffer.buffer);
+  const videoBuffer = req.files['videoUrl'][0]; // Multer ya procesó la subida y guardó los archivos
+  const videoFilename = videoBuffer.filename; // Utiliza el nombre de archivo generado por Multer
 
-  const imgBuffer = req.files['videosimgUrl'][0];
-  const imgRef = ref(
-    storage,
-    `videosimgUrl/${Date.now()}-${imgBuffer.originalname}`
-  );
-  await uploadBytes(imgRef, imgBuffer.buffer);
+  const imgBuffer = req.files['videosimgUrl'][0]; // Igual que con el video
+  const imgFilename = imgBuffer.filename;
 
   const videos = await Videos.create({
     title,
     titleEng,
     date,
     dateEng,
-    videoUrl: await getDownloadURL(videoRef),
-    videosimgUrl: await getDownloadURL(imgRef),
+    videoUrl: `${req.protocol}://${req.get(
+      'host'
+    )}/api/v1//uploads/${videoFilename}`,
+    videosimgUrl: `${req.protocol}://${req.get(
+      'host'
+    )}/api/v1//uploads/${imgFilename}`,
   });
 
   return res.status(201).json({
@@ -63,29 +57,21 @@ exports.create = catchAsync(async (req, res, next) => {
 });
 
 exports.update = catchAsync(async (req, res, next) => {
-  const { videos } = req;
   const { title, titleEng, date, dateEng } = req.body;
-  const videoBuffer = req.files['videoUrl'][0].buffer;
-  const videoRef = ref(
-    storage,
-    `videoUrl/${Date.now()}-${req.files['videoUrl'][0].originalname}`
-  );
-  await uploadBytes(videoRef, videoBuffer);
 
-  const imgBuffer = req.files['videosimgUrl'][0].buffer;
-  const imgRef = ref(
-    storage,
-    `videosimgUrl/${Date.now()}-${req.files['videosimgUrl'][0].originalname}`
-  );
-  await uploadBytes(imgRef, imgBuffer);
+  const videoBuffer = req.files['videoUrl'][0];
+  const videoFilename = videoBuffer.filename;
 
-  await videos.update({
+  const imgBuffer = req.files['videosimgUrl'][0];
+  const imgFilename = imgBuffer.filename;
+
+  const videos = await Videos.update({
     title,
     titleEng,
     date,
     dateEng,
-    videoUrl: await getDownloadURL(videoRef),
-    imgUrl: await getDownloadURL(imgRef),
+    videoUrl: `${req.protocol}://${req.get('host')}/uploads/${videoFilename}`,
+    videosimgUrl: `${req.protocol}://${req.get('host')}/uploads/${imgFilename}`,
   });
 
   return res.status(201).json({

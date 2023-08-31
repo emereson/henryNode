@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const hpp = require('hpp');
+const path = require('path');
 
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/error.controllers');
@@ -46,6 +47,8 @@ app.use('/api/v1/photographs', photographsRouter);
 app.use('/api/v1/stories', storiesRouter);
 app.use('/api/v1/storiesSlice', storiesSliceRouter);
 app.use('/api/v1/videos', videosRouter);
+app.use('/api/v1/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/v1/images', express.static(path.join(__dirname, 'images')));
 
 app.all('*', (req, res, next) => {
   return next(

@@ -1,5 +1,5 @@
 const express = require('express');
-const { upload } = require('../utils/multer');
+const { upload } = require('../utils/multerPhotos');
 
 const photographsMiddleware = require('../middlewares/photographs.middleware');
 const authMiddleware = require('../middlewares/auth.middleware');
@@ -15,7 +15,7 @@ router.get(
   photographsController.findOne
 );
 
-router.use(authMiddleware.protect);
+// router.use(authMiddleware.protect);
 router.post(
   '/',
   upload.fields([

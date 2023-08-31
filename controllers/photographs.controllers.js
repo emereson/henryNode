@@ -37,15 +37,7 @@ exports.create = catchAsync(async (req, res, next) => {
   const { title, date, titleEng, dateEng, galleryStyle } = req.body;
 
   const frontPageFile = req.files['photographsFrontPage'][0];
-
-  const frontPageRef = ref(
-    storage,
-    `photographsFrontPage/${Date.now()}-${frontPageFile.originalname}`
-  );
-
-  await uploadBytes(frontPageRef, frontPageFile.buffer);
-
-  const frontPageUrl = await getDownloadURL(frontPageRef);
+  const frontPageFilename = frontPageFile.filename;
 
   const photographs = await Photographs.create({
     title,
@@ -53,26 +45,23 @@ exports.create = catchAsync(async (req, res, next) => {
     date,
     dateEng,
     galleryStyle,
-    photographsFrontPage: frontPageUrl,
+    photographsFrontPage: `${req.protocol}://${req.get(
+      'host'
+    )}/api/v1/images/${frontPageFilename}`,
   });
 
   const promesasFotosPromised = req.files['photographsImgUrl'].map(
     async (archivo) => {
-      const imgRef = ref(
-        storage,
-        `photographsImgUrl/${Date.now()}-${archivo.originalname}`
-      );
-
-      await uploadBytes(imgRef, archivo.buffer);
-
-      const imgUrl = await getDownloadURL(imgRef);
+      const imgFilename = archivo.filename;
 
       return PhotographsImg.create({
         photographsId: photographs.id,
-        photographsImgUrl: imgUrl,
+        photographsImgUrl: `${req.protocol}://${req.get(
+          'host'
+        )}/api/v1/images/${imgFilename}`,
       });
     }
-  );
+  ); // Cierre del map aquí
 
   await Promise.all(promesasFotosPromised);
 
