@@ -41,12 +41,8 @@ exports.create = catchAsync(async (req, res, next) => {
     titleEng,
     date,
     dateEng,
-    videoUrl: `${req.protocol}://${req.get(
-      'host'
-    )}/api/v1/uploads/${videoFilename}`,
-    videosimgUrl: `${req.protocol}://${req.get(
-      'host'
-    )}/api/v1/uploads/${imgFilename}`,
+    videoUrl: videoFilename,
+    videosimgUrl: imgFilename,
   });
 
   return res.status(201).json({
@@ -70,8 +66,8 @@ exports.update = catchAsync(async (req, res, next) => {
     titleEng,
     date,
     dateEng,
-    videoUrl: `${req.protocol}://${req.get('host')}/uploads/${videoFilename}`,
-    videosimgUrl: `${req.protocol}://${req.get('host')}/uploads/${imgFilename}`,
+    videoUrl: videoFilename,
+    videosimgUrl: imgFilename,
   });
 
   return res.status(201).json({
