@@ -15,7 +15,7 @@ const dataPhotographsRouter = require('./routes/dataPhotographs.routes');
 const dataVideosRouter = require('./routes/dataVideos.routes');
 const homeRouter = require('./routes/home.routes');
 const photographsRouter = require('./routes/photographs.routes');
-const storiesRouter = require('./routes/stories.routes');
+// const storiesRouter = require('./routes/stories.routes');
 const storiesSliceRouter = require('./routes/storiesSlice.routes');
 const videosRouter = require('./routes/videos.routes');
 
@@ -44,7 +44,7 @@ app.use('/api/v1/dataPhotographs', dataPhotographsRouter);
 app.use('/api/v1/dataVideos', dataVideosRouter);
 app.use('/api/v1/home', homeRouter);
 app.use('/api/v1/photographs', photographsRouter);
-app.use('/api/v1/stories', storiesRouter);
+// app.use('/api/v1/stories', storiesRouter);
 app.use('/api/v1/storiesSlice', storiesSliceRouter);
 app.use('/api/v1/videos', videosRouter);
 app.use('/api/v1/uploads', express.static(path.join(__dirname, 'uploads')));

@@ -1,7 +1,5 @@
 const catchAsync = require('../utils/catchAsync');
 const Home = require('../models/home.model');
-const { ref, uploadBytes, getDownloadURL } = require('firebase/storage');
-const { storage } = require('../utils/firebase');
 
 exports.findAll = catchAsync(async (req, res, next) => {
   const home = await Home.findAll({
@@ -25,15 +23,13 @@ exports.findOne = catchAsync(async (req, res, next) => {
 });
 
 exports.create = catchAsync(async (req, res, next) => {
-  const videoRef = ref(
-    storage,
-    `homeVideoUrl/${Date.now()}-${req.file.originalname}`
-  );
-
-  await uploadBytes(videoRef, req.file.buffer);
+  const videoBuffer = req.files['homeVideoUrl'][0]; // Multer ya procesó la subida y guardó los archivos
+  const videoFilename = videoBuffer.filename;
 
   const home = await Home.create({
-    homeVideoUrl: await getDownloadURL(videoRef),
+    homeVideoUrl: `${req.protocol}://${req.get(
+      'host'
+    )}/api/v1/uploads/${videoFilename}`,
   });
 
   return res.status(201).json({
@@ -45,15 +41,13 @@ exports.create = catchAsync(async (req, res, next) => {
 
 exports.update = catchAsync(async (req, res, next) => {
   const { home } = req;
-  const videoRef = ref(
-    storage,
-    `homeVideoUrl/${Date.now()}-${req.file.originalname}`
-  );
-
-  await uploadBytes(videoRef, req.file.buffer);
+  const videoBuffer = req.files['homeVideoUrl'][0]; // Multer ya procesó la subida y guardó los archivos
+  const videoFilename = videoBuffer.filename;
 
   await home.update({
-    homeVideoUrl: await getDownloadURL(videoRef),
+    homeVideoUrl: `${req.protocol}://${req.get(
+      'host'
+    )}/api/v1/uploads/${videoFilename}`,
   });
 
   return res.status(201).json({

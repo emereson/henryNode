@@ -11,8 +11,12 @@ const router = express.Router();
 router.get('/', homeController.findAll);
 router.get('/:id', homeMiddleware.validExistHome, homeController.findOne);
 
-router.use(authMiddleware.protect);
-router.post('/', upload.single('homeVideoUrl'), homeController.create);
+// router.use(authMiddleware.protect);
+router.post(
+  '/',
+  upload.fields([{ name: 'homeVideoUrl', maxCount: 1 }]),
+  homeController.create
+);
 router
   .route('/:id')
   .patch(homeMiddleware.validExistHome, homeController.update)
