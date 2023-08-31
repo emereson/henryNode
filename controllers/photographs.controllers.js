@@ -1,8 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const Photographs = require('../models/photographs.model');
 const PhotographsImg = require('../models/photographsImg.model');
-const { ref, uploadBytes, getDownloadURL } = require('firebase/storage');
-const { storage } = require('../utils/firebase');
 const DataPhotographs = require('../models/dataPhotographs.model');
 
 exports.findAll = catchAsync(async (req, res, next) => {
