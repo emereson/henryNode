@@ -15,7 +15,7 @@ router.get(
   photographsController.findOne
 );
 
-// router.use(authMiddleware.protect);
+router.use(authMiddleware.protect);
 router.post(
   '/',
   upload.fields([

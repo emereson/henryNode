@@ -37,25 +37,31 @@ exports.create = catchAsync(async (req, res, next) => {
   const frontPageFile = req.files['photographsFrontPage'][0];
   const frontPageFilename = frontPageFile.filename;
 
+  const host = req.get('host');
+  const protocol = req.protocol;
+
+  const photographsFrontPage = `${protocol}://${host}/api/v1/images/${frontPageFilename}`;
+
   const photographs = await Photographs.create({
     title,
     titleEng,
     date,
     dateEng,
     galleryStyle,
-    photographsFrontPage: frontPageFilename,
+    photographsFrontPage,
   });
 
   const promesasFotosPromised = req.files['photographsImgUrl'].map(
     async (archivo) => {
       const imgFilename = archivo.filename;
+      const imgUrl = `${protocol}://${host}/api/v1/images/${imgFilename}`;
 
       return PhotographsImg.create({
         photographsId: photographs.id,
-        photographsImgUrl: imgFilename,
+        photographsImgUrl: imgUrl,
       });
     }
-  ); // Cierre del map aquí
+  );
 
   await Promise.all(promesasFotosPromised);
 

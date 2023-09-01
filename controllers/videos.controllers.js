@@ -30,24 +30,29 @@ exports.findOne = catchAsync(async (req, res, next) => {
 exports.create = catchAsync(async (req, res, next) => {
   const { title, titleEng, date, dateEng } = req.body;
 
-  const videoBuffer = req.files['videoUrl'][0]; // Multer ya procesó la subida y guardó los archivos
-  const videoFilename = videoBuffer.filename; // Utiliza el nombre de archivo generado por Multer
+  const videoBuffer = req.files['videoUrl'][0];
+  const videoFilename = videoBuffer.filename;
 
-  const imgBuffer = req.files['videosimgUrl'][0]; // Igual que con el video
+  const imgBuffer = req.files['videosimgUrl'][0];
   const imgFilename = imgBuffer.filename;
+
+  const host = req.get('host');
+  const protocol = req.protocol;
+
+  const videoUrl = `${protocol}://${host}/api/v1/uploads/${videoFilename}`;
+  const imgUrl = `${protocol}://${host}/api/v1/uploads/${imgFilename}`;
 
   const videos = await Videos.create({
     title,
     titleEng,
     date,
     dateEng,
-    videoUrl: videoFilename,
-    videosimgUrl: imgFilename,
+    videoUrl,
+    videosimgUrl: imgUrl,
   });
-
   return res.status(201).json({
     status: 'Success',
-    message: 'Videos created successfully',
+    message: 'videos created successfully',
     videos,
   });
 });

@@ -35,7 +35,11 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 app.use(cors());
 app.use(xss());
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
 app.use(hpp());
 
 app.use('/api/v1', limiter);
@@ -44,7 +48,6 @@ app.use('/api/v1/dataPhotographs', dataPhotographsRouter);
 app.use('/api/v1/dataVideos', dataVideosRouter);
 app.use('/api/v1/home', homeRouter);
 app.use('/api/v1/photographs', photographsRouter);
-// app.use('/api/v1/stories', storiesRouter);
 app.use('/api/v1/storiesSlice', storiesSliceRouter);
 app.use('/api/v1/videos', videosRouter);
 app.use('/api/v1/uploads', express.static(path.join(__dirname, 'uploads')));
