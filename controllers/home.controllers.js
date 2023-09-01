@@ -46,8 +46,12 @@ exports.update = catchAsync(async (req, res, next) => {
   const videoBuffer = req.files['homeVideoUrl'][0]; // Multer ya procesó la subida y guardó los archivos
   const videoFilename = videoBuffer.filename;
 
-  await home.update({
-    homeVideoUrl: videoFilename,
+  const host = req.get('host');
+  const protocol = req.protocol;
+  const videoUrl = `${protocol}://${host}/api/v1/uploads/${videoFilename}`;
+
+  await Home.update({
+    homeVideoUrl: videoUrl,
   });
 
   return res.status(201).json({

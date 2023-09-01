@@ -60,19 +60,11 @@ exports.create = catchAsync(async (req, res, next) => {
 exports.update = catchAsync(async (req, res, next) => {
   const { title, titleEng, date, dateEng } = req.body;
 
-  const videoBuffer = req.files['videoUrl'][0];
-  const videoFilename = videoBuffer.filename;
-
-  const imgBuffer = req.files['videosimgUrl'][0];
-  const imgFilename = imgBuffer.filename;
-
   const videos = await Videos.update({
     title,
     titleEng,
     date,
     dateEng,
-    videoUrl: videoFilename,
-    videosimgUrl: imgFilename,
   });
 
   return res.status(201).json({
