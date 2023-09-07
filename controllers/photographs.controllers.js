@@ -74,8 +74,38 @@ exports.create = catchAsync(async (req, res, next) => {
 
 exports.update = catchAsync(async (req, res, next) => {
   const { photographs } = req;
-  const { title, titleEng, date, dateEng, galleryStyle } = req.body;
-  await photographs.update({ title, titleEng, date, dateEng, galleryStyle });
+  const { title, date, titleEng, dateEng, galleryStyle } = req.body;
+
+  const frontPageFile = req.files['photographsFrontPage'][0];
+  const frontPageFilename = frontPageFile.filename;
+
+  const host = req.get('host');
+  const protocol = req.protocol;
+
+  const photographsFrontPage = `${protocol}://${host}/api/v1/images/${frontPageFilename}`;
+
+  await photographs.update({
+    title,
+    titleEng,
+    date,
+    dateEng,
+    galleryStyle,
+    photographsFrontPage,
+  });
+
+  const promesasFotosPromised = req.files['photographsImgUrl'].map(
+    async (archivo) => {
+      const imgFilename = archivo.filename;
+      const imgUrl = `${protocol}://${host}/api/v1/images/${imgFilename}`;
+
+      return PhotographsImg.update({
+        photographsId: photographs.id,
+        photographsImgUrl: imgUrl,
+      });
+    }
+  );
+
+  await Promise.all(promesasFotosPromised);
 
   return res.status(201).json({
     status: 'Success',

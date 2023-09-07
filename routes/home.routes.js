@@ -19,7 +19,11 @@ router.post(
 );
 router
   .route('/:id')
-  .patch(homeMiddleware.validExistHome, homeController.update)
+  .patch(
+    upload.fields([{ name: 'homeVideoUrl', maxCount: 1 }]),
+    homeMiddleware.validExistHome,
+    homeController.update
+  )
   .delete(homeMiddleware.validExistHome, homeController.delete);
 
 module.exports = router;

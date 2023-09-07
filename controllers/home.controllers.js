@@ -50,13 +50,13 @@ exports.update = catchAsync(async (req, res, next) => {
   const protocol = req.protocol;
   const videoUrl = `${protocol}://${host}/api/v1/uploads/${videoFilename}`;
 
-  await Home.update({
+  await home.update({
     homeVideoUrl: videoUrl,
   });
 
   return res.status(201).json({
     status: 'Success',
-    message: 'home created successfully',
+    message: 'home update successfully',
     home,
   });
 });

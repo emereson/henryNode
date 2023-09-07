@@ -27,6 +27,10 @@ router.post(
 router
   .route('/:id')
   .patch(
+    upload.fields([
+      { name: 'photographsImgUrl', maxCount: 50 },
+      { name: 'photographsFrontPage', maxCount: 1 },
+    ]),
     photographsMiddleware.validExistPhotographs,
     photographsController.update
   )

@@ -58,15 +58,29 @@ exports.create = catchAsync(async (req, res, next) => {
 });
 
 exports.update = catchAsync(async (req, res, next) => {
+  const { videos } = req;
   const { title, titleEng, date, dateEng } = req.body;
 
-  const videos = await Videos.update({
+  const videoBuffer = req.files['videoUrl'][0];
+  const videoFilename = videoBuffer.filename;
+
+  const imgBuffer = req.files['videosimgUrl'][0];
+  const imgFilename = imgBuffer.filename;
+
+  const host = req.get('host');
+  const protocol = req.protocol;
+
+  const videoUrl = `${protocol}://${host}/api/v1/uploads/${videoFilename}`;
+  const imgUrl = `${protocol}://${host}/api/v1/uploads/${imgFilename}`;
+
+  await videos.update({
     title,
     titleEng,
     date,
     dateEng,
+    videoUrl,
+    videosimgUrl: imgUrl,
   });
-
   return res.status(201).json({
     status: 'Success',
     message: 'videos created successfully',
