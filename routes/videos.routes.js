@@ -14,7 +14,7 @@ router.use(authMiddleware.protect);
 router.post(
   '/',
   upload.fields([
-    { name: 'previewVideo', maxCount: 1 },
+    { name: 'previewvideourl', maxCount: 1 },
     { name: 'videoUrl', maxCount: 1 },
     { name: 'videosimgUrl', maxCount: 1 },
   ]),

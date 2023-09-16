@@ -32,7 +32,7 @@ const Videos = db.define('videos', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  videosimgUrl: {
+  previewvideourl: {
     type: DataTypes.TEXT,
     allowNull: false,
   },
