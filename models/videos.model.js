@@ -24,6 +24,10 @@ const Videos = db.define('videos', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  previewVideoUrl: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
   videoUrl: {
     type: DataTypes.TEXT,
     allowNull: false,

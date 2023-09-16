@@ -30,6 +30,9 @@ exports.findOne = catchAsync(async (req, res, next) => {
 exports.create = catchAsync(async (req, res, next) => {
   const { title, titleEng, date, dateEng } = req.body;
 
+  const previewVideoBuffer = req.files['previewVideo'][0];
+  const previewVideoFilename = previewVideoBuffer.filename;
+
   const videoBuffer = req.files['videoUrl'][0];
   const videoFilename = videoBuffer.filename;
 
@@ -39,6 +42,7 @@ exports.create = catchAsync(async (req, res, next) => {
   const host = req.get('host');
   const protocol = req.protocol;
 
+  const previewVideoUrl = `${protocol}://${host}/api/v1/uploads/${previewVideoFilename}`;
   const videoUrl = `${protocol}://${host}/api/v1/uploads/${videoFilename}`;
   const imgUrl = `${protocol}://${host}/api/v1/uploads/${imgFilename}`;
 
@@ -47,6 +51,7 @@ exports.create = catchAsync(async (req, res, next) => {
     titleEng,
     date,
     dateEng,
+    previewVideoUrl,
     videoUrl,
     videosimgUrl: imgUrl,
   });
@@ -61,6 +66,9 @@ exports.update = catchAsync(async (req, res, next) => {
   const { videos } = req;
   const { title, titleEng, date, dateEng } = req.body;
 
+  const previewVideoBuffer = req.files['previewVideo'][0];
+  const previewVideoFilename = previewVideoBuffer.filename;
+
   const videoBuffer = req.files['videoUrl'][0];
   const videoFilename = videoBuffer.filename;
 
@@ -70,6 +78,7 @@ exports.update = catchAsync(async (req, res, next) => {
   const host = req.get('host');
   const protocol = req.protocol;
 
+  const previewVideoUrl = `${protocol}://${host}/api/v1/uploads/${previewVideoFilename}`;
   const videoUrl = `${protocol}://${host}/api/v1/uploads/${videoFilename}`;
   const imgUrl = `${protocol}://${host}/api/v1/uploads/${imgFilename}`;
 
@@ -78,6 +87,7 @@ exports.update = catchAsync(async (req, res, next) => {
     titleEng,
     date,
     dateEng,
+    previewVideoUrl,
     videoUrl,
     videosimgUrl: imgUrl,
   });
