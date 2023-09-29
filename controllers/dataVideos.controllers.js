@@ -2,9 +2,11 @@ const catchAsync = require('../utils/catchAsync');
 const DataVideos = require('../models/dataVideos.model');
 
 exports.findAll = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
   const dataVideos = await DataVideos.findAll({
     where: {
       status: 'active',
+      videoId: id,
     },
   });
   return res.status(200).json({

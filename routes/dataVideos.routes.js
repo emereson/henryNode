@@ -8,7 +8,7 @@ const dataVideosController = require('../controllers/dataVideos.controllers');
 
 const router = express.Router();
 
-router.get('/', dataVideosController.findAll);
+router.get('/video/:id', dataVideosController.findAll);
 router.post(
   '/:id',
   videosMiddleware.validExistVideos,
