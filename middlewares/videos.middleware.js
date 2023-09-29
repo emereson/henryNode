@@ -14,6 +14,9 @@ exports.validExistVideos = catchAsync(async (req, res, next) => {
     include: [
       {
         model: DataVideos,
+        where: {
+          status: 'active',
+        },
       },
     ],
   });
