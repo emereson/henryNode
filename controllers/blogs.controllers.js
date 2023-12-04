@@ -115,6 +115,9 @@ exports.update = catchAsync(async (req, res, next) => {
   const img3Buffer = req.files['blogimg3'][0];
   const img3Filename = img3Buffer.filename;
 
+  const host = req.get('host');
+  const protocol = req.protocol;
+
   const img1Url = `${protocol}://${host}/api/v1/images/${img1Filename}`;
   const img2Url = `${protocol}://${host}/api/v1/images/${img2Filename}`;
   const img3Url = `${protocol}://${host}/api/v1/images/${img3Filename}`;
