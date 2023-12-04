@@ -11,6 +11,7 @@ const { rateLimit } = require('express-rate-limit');
 const xss = require('xss-clean');
 
 const usersRouter = require('./routes/users.routes');
+const blogRouter = require('./routes/blog.routes');
 const dataPhotographsRouter = require('./routes/dataPhotographs.routes');
 const dataVideosRouter = require('./routes/dataVideos.routes');
 const homeRouter = require('./routes/home.routes');
@@ -44,6 +45,7 @@ app.use(hpp());
 
 app.use('/api/v1', limiter);
 app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/blogs', blogRouter);
 app.use('/api/v1/dataPhotographs', dataPhotographsRouter);
 app.use('/api/v1/dataVideos', dataVideosRouter);
 app.use('/api/v1/home', homeRouter);

@@ -1,6 +1,5 @@
 const catchAsync = require('../utils/catchAsync');
 const Videos = require('../models/videos.model');
-const DataVideos = require('../models/dataVideos.model');
 
 exports.findAll = catchAsync(async (req, res, next) => {
   const videos = await Videos.findAll({
@@ -46,7 +45,7 @@ exports.create = catchAsync(async (req, res, next) => {
   const videoUrl = `${protocol}://${host}/api/v1/uploads/${videoFilename}`;
   const imgUrl = `${protocol}://${host}/api/v1/uploads/${imgFilename}`;
 
-  await videos.update({
+  const videos = await Videos.create({
     title,
     titleEng,
     date,
