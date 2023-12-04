@@ -1,5 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const Videos = require('../models/videos.model');
+const DataVideos = require('../models/dataVideos.model');
 
 exports.findAll = catchAsync(async (req, res, next) => {
   const videos = await Videos.findAll({
