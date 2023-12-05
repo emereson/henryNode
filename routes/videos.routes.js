@@ -13,21 +13,13 @@ router.get('/:id', videosMiddleware.validExistVideos, videosController.findOne);
 router.use(authMiddleware.protect);
 router.post(
   '/',
-  upload.fields([
-    { name: 'previewvideourl', maxCount: 1 },
-    { name: 'videoUrl', maxCount: 1 },
-    { name: 'videosimgUrl', maxCount: 1 },
-  ]),
+  upload.fields([{ name: 'videosimgUrl', maxCount: 1 }]),
   videosController.create
 );
 router
   .route('/:id')
   .patch(
-    upload.fields([
-      { name: 'previewvideourl', maxCount: 1 },
-      { name: 'videoUrl', maxCount: 1 },
-      { name: 'videosimgUrl', maxCount: 1 },
-    ]),
+    upload.fields([{ name: 'videosimgUrl', maxCount: 1 }]),
     videosMiddleware.validExistVideos,
     videosController.update
   )

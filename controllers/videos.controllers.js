@@ -27,13 +27,8 @@ exports.findOne = catchAsync(async (req, res, next) => {
 });
 
 exports.create = catchAsync(async (req, res, next) => {
-  const { title, titleEng, date, dateEng } = req.body;
-
-  const previewVideoBuffer = req.files['previewvideourl'][0];
-  const previewVideoFilename = previewVideoBuffer.filename;
-
-  const videoBuffer = req.files['videoUrl'][0];
-  const videoFilename = videoBuffer.filename;
+  const { title, titleEng, date, dateEng, previewvideourl, videoUrl } =
+    req.body;
 
   const imgBuffer = req.files['videosimgUrl'][0];
   const imgFilename = imgBuffer.filename;
@@ -41,8 +36,6 @@ exports.create = catchAsync(async (req, res, next) => {
   const host = req.get('host');
   const protocol = req.protocol;
 
-  const previewvideourl = `${protocol}://${host}/api/v1/uploads/${previewVideoFilename}`;
-  const videoUrl = `${protocol}://${host}/api/v1/uploads/${videoFilename}`;
   const imgUrl = `${protocol}://${host}/api/v1/uploads/${imgFilename}`;
 
   const videos = await Videos.create({
@@ -63,13 +56,8 @@ exports.create = catchAsync(async (req, res, next) => {
 
 exports.update = catchAsync(async (req, res, next) => {
   const { videos } = req;
-  const { title, titleEng, date, dateEng } = req.body;
-
-  const previewVideoBuffer = req.files['previewvideourl'][0];
-  const previewVideoFilename = previewVideoBuffer.filename;
-
-  const videoBuffer = req.files['videoUrl'][0];
-  const videoFilename = videoBuffer.filename;
+  const { title, titleEng, date, dateEng, previewvideourl, videoUrl } =
+    req.body;
 
   const imgBuffer = req.files['videosimgUrl'][0];
   const imgFilename = imgBuffer.filename;
@@ -77,8 +65,6 @@ exports.update = catchAsync(async (req, res, next) => {
   const host = req.get('host');
   const protocol = req.protocol;
 
-  const previewvideourl = `${protocol}://${host}/api/v1/uploads/${previewVideoFilename}`;
-  const videoUrl = `${protocol}://${host}/api/v1/uploads/${videoFilename}`;
   const imgUrl = `${protocol}://${host}/api/v1/uploads/${imgFilename}`;
 
   await videos.update({
@@ -92,7 +78,7 @@ exports.update = catchAsync(async (req, res, next) => {
   });
   return res.status(201).json({
     status: 'Success',
-    message: 'videos created successfully',
+    message: 'videos update successfully',
     videos,
   });
 });

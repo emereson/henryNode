@@ -1,5 +1,4 @@
 const express = require('express');
-const { upload } = require('../utils/multer');
 
 const homeMiddleware = require('../middlewares/home.middleware');
 const authMiddleware = require('../middlewares/auth.middleware');
@@ -12,18 +11,10 @@ router.get('/', homeController.findAll);
 router.get('/:id', homeMiddleware.validExistHome, homeController.findOne);
 
 router.use(authMiddleware.protect);
-router.post(
-  '/',
-  upload.fields([{ name: 'homeVideoUrl', maxCount: 1 }]),
-  homeController.create
-);
+router.post('/', homeController.create);
 router
   .route('/:id')
-  .patch(
-    upload.fields([{ name: 'homeVideoUrl', maxCount: 1 }]),
-    homeMiddleware.validExistHome,
-    homeController.update
-  )
+  .patch(homeMiddleware.validExistHome, homeController.update)
   .delete(homeMiddleware.validExistHome, homeController.delete);
 
 module.exports = router;
